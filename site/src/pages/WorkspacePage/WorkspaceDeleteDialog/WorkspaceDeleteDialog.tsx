@@ -98,7 +98,7 @@ export const WorkspaceDeleteDialog = (props: WorkspaceDeleteDialogProps) => {
 
   return (
     <ConfirmDialog
-      type="delete"
+      type="danger"
       hideCancel={false}
       open={isOpen}
       title="Delete Workspace"

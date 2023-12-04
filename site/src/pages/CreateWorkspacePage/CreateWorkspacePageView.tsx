@@ -35,6 +35,7 @@ import {
   type ExternalAuthPollingState,
 } from "./CreateWorkspacePage";
 import { useSearchParams } from "react-router-dom";
+import colors from "theme/tailwind";
 import { CreateWSPermissions } from "./permissions";
 import { Alert } from "components/Alert/Alert";
 

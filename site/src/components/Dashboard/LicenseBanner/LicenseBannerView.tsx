@@ -6,7 +6,7 @@ import {
 } from "@emotion/react";
 import Link from "@mui/material/Link";
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { type FC, useState } from "react";
 import { Expander } from "components/Expander/Expander";
 import { Pill } from "components/Pill/Pill";
 import { colors } from "theme/colors";
@@ -32,7 +32,7 @@ export interface LicenseBannerViewProps {
   warnings: string[];
 }
 
-export const LicenseBannerView: React.FC<LicenseBannerViewProps> = ({
+export const LicenseBannerView: FC<LicenseBannerViewProps> = ({
   errors,
   warnings,
 }) => {

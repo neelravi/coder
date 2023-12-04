@@ -34,7 +34,7 @@ export const LicenseCard = ({
   return (
     <Paper key={license.id} elevation={2} css={styles.licenseCard}>
       <ConfirmDialog
-        type="delete"
+        type="danger"
         hideCancel={false}
         open={licenseIDMarkedForRemoval !== undefined}
         onConfirm={() => {

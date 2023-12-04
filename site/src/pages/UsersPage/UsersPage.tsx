@@ -177,7 +177,7 @@ export const UsersPage: FC<{ children?: ReactNode }> = () => {
       />
 
       <ConfirmDialog
-        type="delete"
+        type="danger"
         hideCancel={false}
         open={userToSuspend !== undefined}
         confirmLoading={suspendUserMutation.isLoading}

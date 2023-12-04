@@ -21,7 +21,7 @@ export interface DialogActionButtonsProps {
 }
 
 const typeToColor = (type: ConfirmDialogType): LoadingButtonProps["color"] => {
-  if (type === "delete") {
+  if (type === "danger") {
     return "secondary";
   }
   return "primary";
@@ -58,7 +58,7 @@ export const DialogActionButtons: React.FC<DialogActionButtonsProps> = ({
           disabled={disabled}
           type="submit"
           css={[
-            type === "delete" && styles.warningButton,
+            type === "danger" && styles.dangerButton,
             type === "success" && styles.successButton,
           ]}
         >
@@ -70,7 +70,7 @@ export const DialogActionButtons: React.FC<DialogActionButtonsProps> = ({
 };
 
 const styles = {
-  warningButton: (theme) => ({
+  dangerButton: (theme) => ({
     "&.MuiButton-contained": {
       backgroundColor: theme.palette.warning.main,
       borderColor: theme.palette.warning.main,

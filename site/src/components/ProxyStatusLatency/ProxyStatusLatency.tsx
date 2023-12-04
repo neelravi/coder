@@ -1,6 +1,6 @@
-import { useTheme } from "@mui/material/styles";
 import HelpOutline from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
+import { useTheme } from "@emotion/react";
 import { type FC } from "react";
 import { getLatencyColor } from "utils/latency";
 import CircularProgress from "@mui/material/CircularProgress";

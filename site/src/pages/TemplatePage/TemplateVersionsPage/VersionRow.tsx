@@ -39,7 +39,7 @@ export const VersionRow: React.FC<VersionRowProps> = ({
     <TimelineEntry
       data-testid={`version-${version.id}`}
       {...clickableProps}
-      css={[styles.row, isActive && styles.active]}
+      css={[styles.row]}
       className={clickableProps.className}
     >
       <TableCell css={styles.versionCell}>
@@ -145,10 +145,6 @@ const styles = {
   versionWrapper: {
     padding: "16px 32px",
   },
-
-  active: (theme) => ({
-    backgroundColor: theme.palette.background.paper,
-  }),
 
   versionCell: {
     padding: "0 !important",

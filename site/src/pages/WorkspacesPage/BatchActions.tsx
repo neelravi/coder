@@ -88,7 +88,7 @@ export const BatchDeleteConfirmation: FC<BatchDeleteConfirmationProps> = (
 
   return (
     <ConfirmDialog
-      type="delete"
+      type="danger"
       open={open}
       confirmLoading={isLoading}
       onConfirm={confirmDeletion}
