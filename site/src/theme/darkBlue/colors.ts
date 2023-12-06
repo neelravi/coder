@@ -4,17 +4,17 @@ export default {
   white: "#fff",
 
   gray: {
-    17: tw.gray[950],
-    16: tw.gray[900],
-    14: tw.gray[800],
-    13: tw.gray[700],
-    12: tw.gray[600],
-    11: tw.gray[500],
-    9: tw.gray[400],
-    6: tw.gray[300],
-    4: tw.gray[200],
-    2: tw.gray[100],
-    1: tw.gray[50],
+    17: tw.slate[900],
+    16: tw.slate[900],
+    14: tw.slate[800],
+    13: tw.slate[700],
+    12: tw.slate[600],
+    11: tw.slate[500],
+    9: tw.slate[400],
+    6: tw.slate[300],
+    4: tw.slate[200],
+    2: tw.slate[100],
+    1: tw.slate[50],
   },
 
   red: {

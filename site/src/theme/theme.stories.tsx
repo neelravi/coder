@@ -134,6 +134,16 @@ const DARK_BACKGROUND = {
   values: [
     {
       name: "dark",
+      value: colors.zinc[950],
+    },
+  ],
+};
+
+const DARK_BLUE_BACKGROUND = {
+  default: "darkBlue",
+  values: [
+    {
+      name: "darkBlue",
       value: colors.gray[950],
     },
   ],
@@ -159,6 +169,16 @@ export const ExperimentalDark: Story = {
   },
 };
 
+export const ExperimentalDarkBlue: Story = {
+  name: "Experimental (Dark blue)",
+  args: {
+    children: <ExperimentalExample />,
+  },
+  parameters: {
+    backgrounds: DARK_BLUE_BACKGROUND,
+  },
+};
+
 export const ExperimentalLight: Story = {
   name: "Experimental (Light)",
   args: {
@@ -177,6 +197,16 @@ export const MuiDark: Story = {
   },
   parameters: {
     backgrounds: DARK_BACKGROUND,
+  },
+};
+
+export const MuiDarkBlue: Story = {
+  name: "MUI (Dark Blue)",
+  args: {
+    children: <MuiExample />,
+  },
+  parameters: {
+    backgrounds: DARK_BLUE_BACKGROUND,
   },
 };
 
