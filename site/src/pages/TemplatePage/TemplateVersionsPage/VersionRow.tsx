@@ -1,6 +1,7 @@
 import { type CSSObject, type Interpolation, type Theme } from "@emotion/react";
 import Button from "@mui/material/Button";
 import TableCell from "@mui/material/TableCell";
+import { type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TemplateVersion } from "api/typesGenerated";
 import { Pill } from "components/Pill/Pill";
@@ -9,7 +10,6 @@ import { TimelineEntry } from "components/Timeline/TimelineEntry";
 import { UserAvatar } from "components/UserAvatar/UserAvatar";
 import { InfoTooltip } from "components/InfoTooltip/InfoTooltip";
 import { useClickableTableRow } from "hooks/useClickableTableRow";
-import { colors } from "theme/colors";
 
 export interface VersionRowProps {
   version: TemplateVersion;
@@ -19,7 +19,7 @@ export interface VersionRowProps {
   onArchiveClick?: (templateVersionId: string) => void;
 }
 
-export const VersionRow: React.FC<VersionRowProps> = ({
+export const VersionRow: FC<VersionRowProps> = ({
   version,
   isActive,
   isLatest,
@@ -130,7 +130,7 @@ const styles = {
   row: (theme) => ({
     "&:hover $promoteButton": {
       color: theme.palette.text.primary,
-      borderColor: colors.gray[11],
+      borderColor: theme.colors.gray[11],
       "&:hover": {
         borderColor: theme.palette.text.primary,
       },

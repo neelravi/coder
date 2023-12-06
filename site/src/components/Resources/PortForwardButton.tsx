@@ -5,7 +5,6 @@ import OpenInNewOutlined from "@mui/icons-material/OpenInNewOutlined";
 import { type Interpolation, type Theme, useTheme } from "@emotion/react";
 import type { FC } from "react";
 import { useQuery } from "react-query";
-import { colors } from "theme/colors";
 import { docs } from "utils/docs";
 import { getAgentListeningPorts } from "api/api";
 import type {
@@ -194,7 +193,7 @@ const classNames = {
 } satisfies Record<string, ClassName>;
 
 const styles = {
-  portCount: {
+  portCount: (theme) => ({
     fontSize: 12,
     fontWeight: 500,
     height: 20,
@@ -204,9 +203,9 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.gray[11],
+    backgroundColor: theme.colors.gray[11],
     marginLeft: 8,
-  },
+  }),
 
   portLink: (theme) => ({
     color: theme.palette.text.primary,

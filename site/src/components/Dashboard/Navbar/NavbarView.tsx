@@ -10,7 +10,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { css, type Interpolation, type Theme, useTheme } from "@emotion/react";
 import { type FC, type ReactNode, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { colors } from "theme/colors";
 import { BUTTON_SM_HEIGHT, navHeight } from "theme/constants";
 import type * as TypesGen from "api/typesGenerated";
 import type { ProxyContextValue } from "contexts/ProxyContext";
@@ -457,7 +456,7 @@ const styles = {
   },
   link: (theme) => css`
     align-items: center;
-    color: ${colors.gray[6]};
+    color: ${theme.colors.gray[6]};
     display: flex;
     flex: 1;
     font-size: 16px;

@@ -32,8 +32,8 @@ const defaultQueryClient = new QueryClient({
 export const ThemeProviders: FC<PropsWithChildren> = ({ children }) => {
   return (
     <StyledEngineProvider injectFirst>
-      <MuiThemeProvider theme={theme}>
-        <EmotionThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme.dark}>
+        <EmotionThemeProvider theme={theme.dark}>
           <CssBaseline enableColorScheme />
           {children}
         </EmotionThemeProvider>

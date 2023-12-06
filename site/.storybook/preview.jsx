@@ -14,8 +14,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 export const decorators = [
   (Story) => (
     <StyledEngineProvider injectFirst>
-      <MuiThemeProvider theme={theme}>
-        <EmotionThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme.dark}>
+        <EmotionThemeProvider theme={theme.dark}>
           <CssBaseline />
           <Story />
         </EmotionThemeProvider>
@@ -50,6 +50,13 @@ export const decorators = [
 ];
 
 export const parameters = {
+  options: {
+    storySort: {
+      method: "alphabetical",
+      order: ["design", "pages", "components"],
+      locales: "en-US",
+    },
+  },
   backgrounds: {
     default: "dark",
     values: [
