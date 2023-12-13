@@ -172,6 +172,8 @@ type Options struct {
 	StatsBatcher       *batchstats.Batcher
 
 	WorkspaceAppsStatsCollectorOptions workspaceapps.StatsCollectorOptions
+	AllowWorkspaceRenames              bool
+	AllowWorkspaceRenamesExpiresAt     time.Time
 }
 
 // @title Coder API

@@ -143,6 +143,8 @@ type Options struct {
 	StatsBatcher *batchstats.Batcher
 
 	WorkspaceAppsStatsCollectorOptions workspaceapps.StatsCollectorOptions
+	AllowWorkspaceRenames              bool
+	AllowWorkspaceRenamesExpiresAt     time.Time
 }
 
 // New constructs a codersdk client connected to an in-memory API instance.
@@ -396,6 +398,10 @@ func NewOptions(t testing.TB, options *Options) (func(http.Handler), context.Can
 	derpMap, err := tailnet.NewDERPMap(ctx, region, stunAddresses, "", "", options.DeploymentValues.DERP.Config.BlockDirect.Value())
 	require.NoError(t, err)
 
+	if options.AllowWorkspaceRenamesExpiresAt.IsZero() {
+		options.AllowWorkspaceRenamesExpiresAt = time.Now().Add(time.Hour)
+	}
+
 	return func(h http.Handler) {
 			mutex.Lock()
 			defer mutex.Unlock()
@@ -448,6 +454,8 @@ func NewOptions(t testing.TB, options *Options) (func(http.Handler), context.Can
 			HealthcheckRefresh:                 options.HealthcheckRefresh,
 			StatsBatcher:                       options.StatsBatcher,
 			WorkspaceAppsStatsCollectorOptions: options.WorkspaceAppsStatsCollectorOptions,
+			AllowWorkspaceRenames:              options.AllowWorkspaceRenames,
+			AllowWorkspaceRenamesExpiresAt:     options.AllowWorkspaceRenamesExpiresAt,
 		}
 }
 
