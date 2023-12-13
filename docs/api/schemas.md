@@ -2079,6 +2079,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
       "user": {}
     },
     "agent_stat_refresh_interval": 0,
+    "allow_workspace_renames": true,
     "autobuild_poll_interval": 0,
     "browser_only": true,
     "cache_directory": "string",
@@ -2455,6 +2456,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
     "user": {}
   },
   "agent_stat_refresh_interval": 0,
+  "allow_workspace_renames": true,
   "autobuild_poll_interval": 0,
   "browser_only": true,
   "cache_directory": "string",
@@ -2726,6 +2728,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 | `address`                            | [clibase.HostPort](#clibasehostport)                                                                 | false    |              | Address Use HTTPAddress or TLS.Address instead.                    |
 | `agent_fallback_troubleshooting_url` | [clibase.URL](#clibaseurl)                                                                           | false    |              |                                                                    |
 | `agent_stat_refresh_interval`        | integer                                                                                              | false    |              |                                                                    |
+| `allow_workspace_renames`            | boolean                                                                                              | false    |              |                                                                    |
 | `autobuild_poll_interval`            | integer                                                                                              | false    |              |                                                                    |
 | `browser_only`                       | boolean                                                                                              | false    |              |                                                                    |
 | `cache_directory`                    | string                                                                                               | false    |              |                                                                    |
@@ -5733,6 +5736,7 @@ If the schedule is empty, the user will be updated to use the default schedule.|
 
 ```json
 {
+  "allow_renames": true,
   "automatic_updates": "always",
   "autostart_schedule": "string",
   "created_at": "2019-08-24T14:15:22Z",
@@ -5912,6 +5916,7 @@ If the schedule is empty, the user will be updated to use the default schedule.|
 
 | Name                                        | Type                                                   | Required | Restrictions | Description                                                                                                                                                                                                                                           |
 | ------------------------------------------- | ------------------------------------------------------ | -------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `allow_renames`                             | boolean                                                | false    |              |                                                                                                                                                                                                                                                       |
 | `automatic_updates`                         | [codersdk.AutomaticUpdates](#codersdkautomaticupdates) | false    |              |                                                                                                                                                                                                                                                       |
 | `autostart_schedule`                        | string                                                 | false    |              |                                                                                                                                                                                                                                                       |
 | `created_at`                                | string                                                 | false    |              |                                                                                                                                                                                                                                                       |
@@ -6994,6 +6999,7 @@ If the schedule is empty, the user will be updated to use the default schedule.|
   "count": 0,
   "workspaces": [
     {
+      "allow_renames": true,
       "automatic_updates": "always",
       "autostart_schedule": "string",
       "created_at": "2019-08-24T14:15:22Z",

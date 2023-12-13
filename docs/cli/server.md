@@ -31,6 +31,17 @@ coder server [flags]
 
 The URL that users will use to access the Coder deployment.
 
+### --allow-workspace-renames
+
+|             |                                             |
+| ----------- | ------------------------------------------- |
+| Type        | <code>bool</code>                           |
+| Environment | <code>$CODER_ALLOW_WORKSPACE_RENAMES</code> |
+| YAML        | <code>.allowWorkspaceRenames</code>         |
+| Default     | <code>false</code>                          |
+
+Allow users to rename their workspaces. This is not recommended for production deployments as it can cause issues with the workspace's internal state. Use only for compatibility reasons.
+
 ### --block-direct-connections
 
 |             |                                          |
