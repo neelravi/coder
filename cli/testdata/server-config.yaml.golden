@@ -457,3 +457,7 @@ userQuietHoursSchedule:
   # values are not supported).
   # (default: <unset>, type: string)
   defaultQuietHoursSchedule: ""
+# DEPRECATED: Allow users to rename their workspaces. Use only for temporary
+# compatibility reasons, this flag will no longer function after 2024-04-01.
+# (default: false, type: bool)
+allowWorkspaceRenames: false

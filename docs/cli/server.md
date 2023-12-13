@@ -37,10 +37,10 @@ The URL that users will use to access the Coder deployment.
 | ----------- | ------------------------------------------- |
 | Type        | <code>bool</code>                           |
 | Environment | <code>$CODER_ALLOW_WORKSPACE_RENAMES</code> |
-| YAML        | <code>.allowWorkspaceRenames</code>         |
+| YAML        | <code>allowWorkspaceRenames</code>          |
 | Default     | <code>false</code>                          |
 
-DEPRECATED: Allow users to rename their workspaces. Use only for temporary compatibility reasons, this flag will no longer function after 2024-04-01T00:00:00Z00:00.
+DEPRECATED: Allow users to rename their workspaces. Use only for temporary compatibility reasons, this flag will no longer function after 2024-04-01.
 
 ### --block-direct-connections
 
