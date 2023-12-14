@@ -173,7 +173,6 @@ type Options struct {
 
 	WorkspaceAppsStatsCollectorOptions workspaceapps.StatsCollectorOptions
 	AllowWorkspaceRenames              bool
-	AllowWorkspaceRenamesExpiresAt     time.Time
 }
 
 // @title Coder API
