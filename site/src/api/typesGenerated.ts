@@ -162,6 +162,7 @@ export interface BuildInfoResponse {
   readonly version: string;
   readonly dashboard_url: string;
   readonly workspace_proxy: boolean;
+  readonly agent_api_version: string;
 }
 
 // From codersdk/insights.go
@@ -689,6 +690,7 @@ export interface OIDCConfig {
   readonly ignore_user_info: boolean;
   readonly group_auto_create: boolean;
   readonly group_regex_filter: string;
+  readonly group_allow_list: string[];
   readonly groups_field: string;
   readonly group_mapping: Record<string, string>;
   readonly user_role_field: string;
@@ -775,7 +777,6 @@ export interface ProvisionerConfig {
 export interface ProvisionerDaemon {
   readonly id: string;
   readonly created_at: string;
-  readonly updated_at?: string;
   readonly last_seen_at?: string;
   readonly name: string;
   readonly version: string;
@@ -1229,6 +1230,11 @@ export interface UpdateTemplateMeta {
 }
 
 // From codersdk/users.go
+export interface UpdateUserAppearanceSettingsRequest {
+  readonly theme_preference: string;
+}
+
+// From codersdk/users.go
 export interface UpdateUserPasswordRequest {
   readonly old_password: string;
   readonly password: string;
@@ -1292,6 +1298,7 @@ export interface User {
   readonly roles: Role[];
   readonly avatar_url: string;
   readonly login_type: LoginType;
+  readonly theme_preference: string;
 }
 
 // From codersdk/insights.go

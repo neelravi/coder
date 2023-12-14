@@ -1,9 +1,13 @@
+import Divider from "@mui/material/Divider";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { type FC, useState, useCallback, useEffect } from "react";
+import { useQuery } from "react-query";
+import { externalAuthProvider } from "api/queries/externalAuth";
 import type {
   ListUserExternalAuthResponse,
   ExternalAuthLinkProvider,
@@ -12,8 +16,7 @@ import type {
 import { ErrorAlert } from "components/Alert/ErrorAlert";
 import { Avatar } from "components/Avatar/Avatar";
 import { AvatarData } from "components/AvatarData/AvatarData";
-import { ExternalAuth } from "pages/CreateWorkspacePage/ExternalAuth";
-import Divider from "@mui/material/Divider";
+import { FullScreenLoader } from "components/Loader/FullScreenLoader";
 import {
   MoreMenu,
   MoreMenuContent,
@@ -21,13 +24,10 @@ import {
   MoreMenuTrigger,
   ThreeDotsButton,
 } from "components/MoreMenu/MoreMenu";
+import { ExternalAuth } from "pages/CreateWorkspacePage/ExternalAuth";
 import { ExternalAuthPollingState } from "pages/CreateWorkspacePage/CreateWorkspacePage";
-import { useState, useCallback, useEffect } from "react";
-import { useQuery } from "react-query";
-import { userExternalAuth } from "api/queries/externalauth";
-import { FullScreenLoader } from "components/Loader/FullScreenLoader";
 
-export type UserExternalAuthSettingsPageViewProps = {
+export type ExternalAuthPageViewProps = {
   isLoading: boolean;
   getAuthsError?: unknown;
   unlinked: number;
@@ -36,14 +36,14 @@ export type UserExternalAuthSettingsPageViewProps = {
   onValidateExternalAuth: (provider: string) => void;
 };
 
-export const UserExternalAuthSettingsPageView = ({
+export const ExternalAuthPageView: FC<ExternalAuthPageViewProps> = ({
   isLoading,
   getAuthsError,
   auths,
   unlinked,
   onUnlinkExternalAuth,
   onValidateExternalAuth,
-}: UserExternalAuthSettingsPageViewProps): JSX.Element => {
+}) => {
   if (getAuthsError) {
     // Nothing to show if there is an error
     return <ErrorAlert error={getAuthsError} />;
@@ -61,7 +61,7 @@ export const UserExternalAuthSettingsPageView = ({
             <TableRow>
               <TableCell>Application</TableCell>
               <TableCell>Link</TableCell>
-              <TableCell></TableCell>
+              <TableCell width="1%"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -105,13 +105,13 @@ interface ExternalAuthRowProps {
   onValidateExternalAuth: () => void;
 }
 
-const ExternalAuthRow = ({
+const ExternalAuthRow: FC<ExternalAuthRowProps> = ({
   app,
   unlinked,
   link,
   onUnlinkExternalAuth,
   onValidateExternalAuth,
-}: ExternalAuthRowProps): JSX.Element => {
+}) => {
   const name = app.id || app.type;
   const authURL = "/external-auth/" + app.id;
 
@@ -150,7 +150,7 @@ const ExternalAuthRow = ({
           message={authenticated ? "Authenticated" : "Click to Login"}
           externalAuthPollingState={externalAuthPollingState}
           startPollingExternalAuth={startPollingExternalAuth}
-        ></ExternalAuth>
+        />
       </TableCell>
       <TableCell>
         {(link || externalAuth?.authenticated) && (
@@ -199,7 +199,7 @@ const useExternalAuth = (providerID: string, unlinked: number) => {
   }, []);
 
   const { data: externalAuth, refetch } = useQuery({
-    ...userExternalAuth(providerID),
+    ...externalAuthProvider(providerID),
     refetchInterval: externalAuthPollingState === "polling" ? 1000 : false,
   });
 

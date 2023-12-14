@@ -4,9 +4,9 @@ import {
   type DeploymentConfig,
 } from "api/api";
 import { FieldError } from "api/errors";
-import * as TypesGen from "api/typesGenerated";
+import type * as TypesGen from "api/typesGenerated";
 import range from "lodash/range";
-import { Permissions } from "components/AuthProvider/permissions";
+import { Permissions } from "contexts/AuthProvider/permissions";
 import { TemplateVersionFiles } from "utils/templateVersion";
 import { FileTree } from "utils/filetree";
 import { ProxyLatencyReport } from "contexts/useProxyLatency";
@@ -194,6 +194,7 @@ export const MockProxyLatencies: Record<string, ProxyLatencyReport> = {
 };
 
 export const MockBuildInfo: TypesGen.BuildInfoResponse = {
+  agent_api_version: "1.0",
   external_url: "file:///mock-url",
   version: "v99.999.9999+c9cdf14",
   dashboard_url: "https:///mock-url",
@@ -283,6 +284,7 @@ export const MockUser: TypesGen.User = {
   avatar_url: "https://avatars.githubusercontent.com/u/95932066?s=200&v=4",
   last_seen_at: "",
   login_type: "password",
+  theme_preference: "",
 };
 
 export const MockUserAdmin: TypesGen.User = {
@@ -296,6 +298,7 @@ export const MockUserAdmin: TypesGen.User = {
   avatar_url: "",
   last_seen_at: "",
   login_type: "password",
+  theme_preference: "",
 };
 
 export const MockUser2: TypesGen.User = {
@@ -309,6 +312,7 @@ export const MockUser2: TypesGen.User = {
   avatar_url: "",
   last_seen_at: "2022-09-14T19:12:21Z",
   login_type: "oidc",
+  theme_preference: "",
 };
 
 export const SuspendedMockUser: TypesGen.User = {
@@ -322,15 +326,24 @@ export const SuspendedMockUser: TypesGen.User = {
   avatar_url: "",
   last_seen_at: "",
   login_type: "password",
+  theme_preference: "",
 };
 
 export const MockProvisioner: TypesGen.ProvisionerDaemon = {
   created_at: "2022-05-17T17:39:01.382927298Z",
-  updated_at: "2022-05-17T17:39:01.382927298Z",
   id: "test-provisioner",
   name: "Test Provisioner",
   provisioners: ["echo"],
-  tags: {},
+  tags: { scope: "organization" },
+  version: "v2.34.5",
+};
+
+export const MockUserProvisioner: TypesGen.ProvisionerDaemon = {
+  created_at: "2022-05-17T17:39:01.382927298Z",
+  id: "test-user-provisioner",
+  name: "Test User Provisioner",
+  provisioners: ["echo"],
+  tags: { scope: "user", owner: "12345678-abcd-1234-abcd-1234567890abcd" },
   version: "v2.34.5",
 };
 
@@ -625,6 +638,31 @@ export const MockWorkspaceAgentOutdated: TypesGen.WorkspaceAgent = {
   id: "test-workspace-agent-3",
   name: "an-outdated-workspace-agent",
   version: "v99.999.9998+abcdef",
+  operating_system: "Windows",
+  latency: {
+    ...MockWorkspaceAgent.latency,
+    Chicago: {
+      preferred: false,
+      latency_ms: 95.11,
+    },
+    "San Francisco": {
+      preferred: false,
+      latency_ms: 111.55,
+    },
+    Paris: {
+      preferred: false,
+      latency_ms: 221.66,
+    },
+  },
+  lifecycle_state: "ready",
+};
+
+export const MockWorkspaceAgentDeprecated: TypesGen.WorkspaceAgent = {
+  ...MockWorkspaceAgent,
+  id: "test-workspace-agent-3",
+  name: "an-outdated-workspace-agent",
+  version: "v99.999.9998+abcdef",
+  api_version: "1.99",
   operating_system: "Windows",
   latency: {
     ...MockWorkspaceAgent.latency,

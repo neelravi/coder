@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import { useTheme } from "@emotion/react";
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { BlockPicker } from "react-color";
 import { useFormik } from "formik";
 import type { UpdateAppearanceConfig } from "api/typesGenerated";

@@ -54,6 +54,7 @@ export interface AgentRowProps {
   hideSSHButton?: boolean;
   hideVSCodeDesktopButton?: boolean;
   serverVersion: string;
+  serverAPIVersion: string;
   onUpdateAgent: () => void;
   storybookLogs?: LineWithID[];
   storybookAgentMetadata?: WorkspaceAgentMetadata[];
@@ -67,6 +68,7 @@ export const AgentRow: FC<AgentRowProps> = ({
   hideSSHButton,
   hideVSCodeDesktopButton,
   serverVersion,
+  serverAPIVersion,
   onUpdateAgent,
   storybookAgentMetadata,
   sshPrefix,
@@ -178,6 +180,7 @@ export const AgentRow: FC<AgentRowProps> = ({
                   <AgentVersion
                     agent={agent}
                     serverVersion={serverVersion}
+                    serverAPIVersion={serverAPIVersion}
                     onUpdate={onUpdateAgent}
                   />
                   <AgentLatency agent={agent} />

@@ -865,6 +865,7 @@ _None_
             }
           ],
           "status": "active",
+          "theme_preference": "string",
           "username": "string"
         }
       ],
@@ -890,6 +891,7 @@ _None_
         }
       ],
       "status": "active",
+      "theme_preference": "string",
       "username": "string"
     }
   ]
@@ -1175,6 +1177,7 @@ _None_
       }
     ],
     "status": "active",
+    "theme_preference": "string",
     "username": "string"
   },
   "user_agent": "string"
@@ -1252,6 +1255,7 @@ _None_
           }
         ],
         "status": "active",
+        "theme_preference": "string",
         "username": "string"
       },
       "user_agent": "string"
@@ -1430,6 +1434,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 
 ```json
 {
+  "agent_api_version": "string",
   "dashboard_url": "string",
   "external_url": "string",
   "version": "string",
@@ -1439,12 +1444,13 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 
 ### Properties
 
-| Name              | Type    | Required | Restrictions | Description                                                                                                                                                         |
-| ----------------- | ------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dashboard_url`   | string  | false    |              | Dashboard URL is the URL to hit the deployment's dashboard. For external workspace proxies, this is the coderd they are connected to.                               |
-| `external_url`    | string  | false    |              | External URL references the current Coder version. For production builds, this will link directly to a release. For development builds, this will link to a commit. |
-| `version`         | string  | false    |              | Version returns the semantic version of the build.                                                                                                                  |
-| `workspace_proxy` | boolean | false    |              |                                                                                                                                                                     |
+| Name                | Type    | Required | Restrictions | Description                                                                                                                                                         |
+| ------------------- | ------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agent_api_version` | string  | false    |              | Agent api version is the current version of the Agent API (back versions MAY still be supported).                                                                   |
+| `dashboard_url`     | string  | false    |              | Dashboard URL is the URL to hit the deployment's dashboard. For external workspace proxies, this is the coderd they are connected to.                               |
+| `external_url`      | string  | false    |              | External URL references the current Coder version. For production builds, this will link directly to a release. For development builds, this will link to a commit. |
+| `version`           | string  | false    |              | Version returns the semantic version of the build.                                                                                                                  |
+| `workspace_proxy`   | boolean | false    |              |                                                                                                                                                                     |
 
 ## codersdk.BuildReason
 
@@ -2196,6 +2202,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
       "client_secret": "string",
       "email_domain": ["string"],
       "email_field": "string",
+      "group_allow_list": ["string"],
       "group_auto_create": true,
       "group_mapping": {},
       "group_regex_filter": {},
@@ -2571,6 +2578,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
     "client_secret": "string",
     "email_domain": ["string"],
     "email_field": "string",
+    "group_allow_list": ["string"],
     "group_auto_create": true,
     "group_mapping": {},
     "group_regex_filter": {},
@@ -3102,6 +3110,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
         }
       ],
       "status": "active",
+      "theme_preference": "string",
       "username": "string"
     }
   ]
@@ -3158,6 +3167,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
         }
       ],
       "status": "active",
+      "theme_preference": "string",
       "username": "string"
     }
   ],
@@ -3577,6 +3587,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
   "client_secret": "string",
   "email_domain": ["string"],
   "email_field": "string",
+  "group_allow_list": ["string"],
   "group_auto_create": true,
   "group_mapping": {},
   "group_regex_filter": {},
@@ -3618,6 +3629,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 | `client_secret`         | string                           | false    |              |                                                                                  |
 | `email_domain`          | array of string                  | false    |              |                                                                                  |
 | `email_field`           | string                           | false    |              |                                                                                  |
+| `group_allow_list`      | array of string                  | false    |              |                                                                                  |
 | `group_auto_create`     | boolean                          | false    |              |                                                                                  |
 | `group_mapping`         | object                           | false    |              |                                                                                  |
 | `group_regex_filter`    | [clibase.Regexp](#clibaseregexp) | false    |              |                                                                                  |
@@ -3821,7 +3833,6 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
     "property1": "string",
     "property2": "string"
   },
-  "updated_at": "2019-08-24T14:15:22Z",
   "version": "string"
 }
 ```
@@ -3837,7 +3848,6 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 | `provisioners`     | array of string | false    |              |             |
 | `tags`             | object          | false    |              |             |
 | » `[any property]` | string          | false    |              |             |
-| `updated_at`       | string          | false    |              |             |
 | `version`          | string          | false    |              |             |
 
 ## codersdk.ProvisionerJob
@@ -4878,6 +4888,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
     }
   ],
   "status": "active",
+  "theme_preference": "string",
   "username": "string"
 }
 ```
@@ -4896,6 +4907,7 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 | `role`             | [codersdk.TemplateRole](#codersdktemplaterole) | false    |              |             |
 | `roles`            | array of [codersdk.Role](#codersdkrole)        | false    |              |             |
 | `status`           | [codersdk.UserStatus](#codersdkuserstatus)     | false    |              |             |
+| `theme_preference` | string                                         | false    |              |             |
 | `username`         | string                                         | true     |              |             |
 
 #### Enumerated Values
@@ -5274,6 +5286,20 @@ AuthorizationObject can represent a "set" of objects, such as: all workspaces in
 | `user_perms`       | object                                         | false    |              | User perms should be a mapping of user ID to role. The user ID must be the uuid of the user, not a username or email address. |
 | » `[any property]` | [codersdk.TemplateRole](#codersdktemplaterole) | false    |              |                                                                                                                               |
 
+## codersdk.UpdateUserAppearanceSettingsRequest
+
+```json
+{
+  "theme_preference": "string"
+}
+```
+
+### Properties
+
+| Name               | Type   | Required | Restrictions | Description |
+| ------------------ | ------ | -------- | ------------ | ----------- |
+| `theme_preference` | string | true     |              |             |
+
 ## codersdk.UpdateUserPasswordRequest
 
 ```json
@@ -5423,6 +5449,7 @@ If the schedule is empty, the user will be updated to use the default schedule.|
     }
   ],
   "status": "active",
+  "theme_preference": "string",
   "username": "string"
 }
 ```
@@ -5440,6 +5467,7 @@ If the schedule is empty, the user will be updated to use the default schedule.|
 | `organization_ids` | array of string                            | false    |              |             |
 | `roles`            | array of [codersdk.Role](#codersdkrole)    | false    |              |             |
 | `status`           | [codersdk.UserStatus](#codersdkuserstatus) | false    |              |             |
+| `theme_preference` | string                                     | false    |              |             |
 | `username`         | string                                     | true     |              |             |
 
 #### Enumerated Values

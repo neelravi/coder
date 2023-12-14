@@ -19,6 +19,7 @@ import (
 	"github.com/coder/coder/v2/coderd/database/dbpurge"
 	"github.com/coder/coder/v2/coderd/database/dbtestutil"
 	"github.com/coder/coder/v2/coderd/database/dbtime"
+	"github.com/coder/coder/v2/provisionersdk"
 	"github.com/coder/coder/v2/testutil"
 )
 
@@ -32,6 +33,57 @@ func TestPurge(t *testing.T) {
 	purger := dbpurge.New(context.Background(), slogtest.Make(t, nil), dbmem.New())
 	err := purger.Close()
 	require.NoError(t, err)
+}
+
+func TestDeleteOldWorkspaceAgentStats(t *testing.T) {
+	t.Parallel()
+
+	db, _ := dbtestutil.NewDB(t)
+	logger := slogtest.Make(t, &slogtest.Options{IgnoreErrors: true})
+
+	ctx, cancel := context.WithTimeout(context.Background(), testutil.WaitShort)
+	defer cancel()
+
+	now := dbtime.Now()
+
+	// given
+	// Let's use RxBytes to identify stat entries.
+	// Stat inserted 6 months + 1 hour ago, should be deleted.
+	first := dbgen.WorkspaceAgentStat(t, db, database.WorkspaceAgentStat{
+		CreatedAt:                 now.Add(-6*30*24*time.Hour - time.Hour),
+		ConnectionMedianLatencyMS: 1,
+		RxBytes:                   1111,
+	})
+
+	// Stat inserted 6 months - 1 hour ago, should not be deleted.
+	second := dbgen.WorkspaceAgentStat(t, db, database.WorkspaceAgentStat{
+		CreatedAt:                 now.Add(-5*30*24*time.Hour + time.Hour),
+		ConnectionMedianLatencyMS: 1,
+		RxBytes:                   2222,
+	})
+
+	// when
+	closer := dbpurge.New(ctx, logger, db)
+	defer closer.Close()
+
+	// then
+	var stats []database.GetWorkspaceAgentStatsRow
+	var err error
+	require.Eventually(t, func() bool {
+		// Query all stats created not earlier than 7 months ago
+		stats, err = db.GetWorkspaceAgentStats(ctx, now.Add(-7*30*24*time.Hour))
+		if err != nil {
+			return false
+		}
+		return !containsWorkspaceAgentStat(stats, first) &&
+			containsWorkspaceAgentStat(stats, second)
+	}, testutil.WaitShort, testutil.IntervalFast, stats)
+}
+
+func containsWorkspaceAgentStat(stats []database.GetWorkspaceAgentStatsRow, needle database.WorkspaceAgentStat) bool {
+	return slices.ContainsFunc(stats, func(s database.GetWorkspaceAgentStatsRow) bool {
+		return s.WorkspaceRxBytes == needle.RxBytes
+	})
 }
 
 func TestDeleteOldWorkspaceAgentLogs(t *testing.T) {
@@ -158,39 +210,53 @@ func TestDeleteOldProvisionerDaemons(t *testing.T) {
 	now := dbtime.Now()
 
 	// given
-	_, err := db.InsertProvisionerDaemon(ctx, database.InsertProvisionerDaemonParams{
+	_, err := db.UpsertProvisionerDaemon(ctx, database.UpsertProvisionerDaemonParams{
 		// Provisioner daemon created 14 days ago, and checked in just before 7 days deadline.
-		ID:           uuid.New(),
 		Name:         "external-0",
 		Provisioners: []database.ProvisionerType{"echo"},
+		Tags:         database.StringMap{provisionersdk.TagScope: provisionersdk.ScopeOrganization},
 		CreatedAt:    now.Add(-14 * 24 * time.Hour),
-		UpdatedAt:    sql.NullTime{Valid: true, Time: now.Add(-7 * 24 * time.Hour).Add(time.Minute)},
+		LastSeenAt:   sql.NullTime{Valid: true, Time: now.Add(-7 * 24 * time.Hour).Add(time.Minute)},
+		Version:      "1.0.0",
+		APIVersion:   "1.0",
 	})
 	require.NoError(t, err)
-	_, err = db.InsertProvisionerDaemon(ctx, database.InsertProvisionerDaemonParams{
+	_, err = db.UpsertProvisionerDaemon(ctx, database.UpsertProvisionerDaemonParams{
 		// Provisioner daemon created 8 days ago, and checked in last time an hour after creation.
-		ID:           uuid.New(),
 		Name:         "external-1",
 		Provisioners: []database.ProvisionerType{"echo"},
+		Tags:         database.StringMap{provisionersdk.TagScope: provisionersdk.ScopeOrganization},
 		CreatedAt:    now.Add(-8 * 24 * time.Hour),
-		UpdatedAt:    sql.NullTime{Valid: true, Time: now.Add(-8 * 24 * time.Hour).Add(time.Hour)},
+		LastSeenAt:   sql.NullTime{Valid: true, Time: now.Add(-8 * 24 * time.Hour).Add(time.Hour)},
+		Version:      "1.0.0",
+		APIVersion:   "1.0",
 	})
 	require.NoError(t, err)
-	_, err = db.InsertProvisionerDaemon(ctx, database.InsertProvisionerDaemonParams{
+	_, err = db.UpsertProvisionerDaemon(ctx, database.UpsertProvisionerDaemonParams{
 		// Provisioner daemon created 9 days ago, and never checked in.
-		ID:           uuid.New(),
-		Name:         "external-2",
+		Name:         "alice-provisioner",
 		Provisioners: []database.ProvisionerType{"echo"},
-		CreatedAt:    now.Add(-9 * 24 * time.Hour),
+		Tags: database.StringMap{
+			provisionersdk.TagScope: provisionersdk.ScopeUser,
+			provisionersdk.TagOwner: uuid.NewString(),
+		},
+		CreatedAt:  now.Add(-9 * 24 * time.Hour),
+		Version:    "1.0.0",
+		APIVersion: "1.0",
 	})
 	require.NoError(t, err)
-	_, err = db.InsertProvisionerDaemon(ctx, database.InsertProvisionerDaemonParams{
+	_, err = db.UpsertProvisionerDaemon(ctx, database.UpsertProvisionerDaemonParams{
 		// Provisioner daemon created 6 days ago, and never checked in.
-		ID:           uuid.New(),
-		Name:         "external-3",
+		Name:         "bob-provisioner",
 		Provisioners: []database.ProvisionerType{"echo"},
-		CreatedAt:    now.Add(-6 * 24 * time.Hour),
-		UpdatedAt:    sql.NullTime{Valid: true, Time: now.Add(-6 * 24 * time.Hour)},
+		Tags: database.StringMap{
+			provisionersdk.TagScope: provisionersdk.ScopeUser,
+			provisionersdk.TagOwner: uuid.NewString(),
+		},
+		CreatedAt:  now.Add(-6 * 24 * time.Hour),
+		LastSeenAt: sql.NullTime{Valid: true, Time: now.Add(-6 * 24 * time.Hour)},
+		Version:    "1.0.0",
+		APIVersion: "1.0",
 	})
 	require.NoError(t, err)
 
@@ -206,8 +272,8 @@ func TestDeleteOldProvisionerDaemons(t *testing.T) {
 		}
 		return containsProvisionerDaemon(daemons, "external-0") &&
 			!containsProvisionerDaemon(daemons, "external-1") &&
-			!containsProvisionerDaemon(daemons, "external-2") &&
-			containsProvisionerDaemon(daemons, "external-3")
+			!containsProvisionerDaemon(daemons, "alice-provisioner") &&
+			containsProvisionerDaemon(daemons, "bob-provisioner")
 	}, testutil.WaitShort, testutil.IntervalFast)
 }
 

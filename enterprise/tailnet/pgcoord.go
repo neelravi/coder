@@ -639,7 +639,7 @@ func (m *mapper) run() {
 			m.logger.Debug(m.ctx, "skipping nil node update")
 			continue
 		}
-		if err := m.c.Enqueue(update); err != nil {
+		if err := m.c.Enqueue(update); err != nil && !xerrors.Is(err, context.Canceled) {
 			m.logger.Error(m.ctx, "failed to enqueue node update", slog.Error(err))
 		}
 	}
@@ -941,8 +941,7 @@ func (q *querier) mappingQuery(peer mKey) error {
 		return nil
 	}
 	logger.Debug(q.ctx, "sending mappings", slog.F("mapping_len", len(mappings)))
-	mpr.mappings <- mappings
-	return nil
+	return agpl.SendCtx(q.ctx, mpr.mappings, mappings)
 }
 
 func (q *querier) bindingsToMappings(bindings []database.GetTailnetTunnelPeerBindingsRow) ([]mapping, error) {
